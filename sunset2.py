@@ -1,3 +1,4 @@
+import simpleaudio as sa
 import requests
 from astral.sun import sun
 from astral import LocationInfo
@@ -47,8 +48,8 @@ LATITUDE = 41.6083133549754  # Basilica
 LONGITUDE = 15.889447794802745  # Basilica
 
 ADJUSTMENT_H = 0
-ADJUSTMENT_M = 33
-ADJUSTMENT_S = 37
+ADJUSTMENT_M = 9
+ADJUSTMENT_S = 87
 # LATITUDE = 47.250000   # Replace with the actual latitude of your location
 # LONGITUDE = 129.733333  # Replace with the actual longitude of your location
 
@@ -87,7 +88,10 @@ def playTrack():
     infolog("PLAYING")
     # Play the previously downloaded track using a media player
     # subprocess.run(['mpg123', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.run(['aplay', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    # subprocess.run(['aplay', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
     infolog("ENDED")
 
 
