@@ -10,6 +10,9 @@ import os
 from time import sleep
 import logging
 
+import librosa
+import soundfile as sf
+
 logging.basicConfig(filename='script.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def infolog(str):
@@ -99,9 +102,8 @@ def schedule_time(t):
 
 
 def run():
-    count = 0
-    d1 = get_diff(14, 57)
-    d2 = get_diff(15, 17)
+    d1 = get_diff(15, 25)
+    d2 = get_diff(15, 40)
     if(d1 < d2):
         print("Starting time 1")
         schedule_time(d1)
