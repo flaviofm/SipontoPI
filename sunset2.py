@@ -10,9 +10,6 @@ import os
 from time import sleep
 import logging
 
-import librosa
-import soundfile as sf
-
 logging.basicConfig(filename='script.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def infolog(str):
