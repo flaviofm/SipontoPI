@@ -103,10 +103,10 @@ COUNT = 0
 def run():
     global COUNT
     if(COUNT == 0):
-        schedule_time(14, 0)
+        schedule_time(14, 40)
         COUNT = 1
     else:
-        schedule_time(14, 30)
+        schedule_time(14, 55)
         COUNT = 0
 
 # Initial setup
