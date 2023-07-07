@@ -100,8 +100,8 @@ def schedule_time(t):
 
 def run():
     now = datetime.now()
-    d1 = get_diff(now.hour, now.minute + 1)
-    d2 = get_diff(now.hour+1, now.minute + 1)
+    d1 = get_diff(18, 5)
+    d2 = get_diff(18, 25)
     if(d1 < d2):
         infolog("Starting time 1")
         schedule_time(d1)
