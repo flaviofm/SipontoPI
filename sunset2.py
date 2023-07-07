@@ -43,7 +43,7 @@ URL = 'https://likeyousrl.com/siponto/inarena.wav'
 # URL = 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID'
 
 DIR_PATH = "./.tracks/"
-FILE_PATH = './.tracks/inarena.wav'  # Replace with the desired file path to save the .wav file
+FILE_PATH = '.tracks/inarena.wav'  # Replace with the desired file path to save the .wav file
 LATITUDE = 41.6083133549754  # Basilica
 LONGITUDE = 15.889447794802745  # Basilica
 
