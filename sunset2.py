@@ -99,13 +99,14 @@ def schedule_time(t):
 
 
 def run():
-    d1 = get_diff(17, 0)
-    d2 = get_diff(17, 30)
+    now = datetime.now()
+    d1 = get_diff(now.hour, now.minute + 1)
+    d2 = get_diff(now.hour+1, now.minute + 1)
     if(d1 < d2):
-        print("Starting time 1")
+        infolog("Starting time 1")
         schedule_time(d1)
     else:
-        print("Starting time 2")
+        infolog("Starting time 2")
         schedule_time(d2)
 
 # Initial setup
