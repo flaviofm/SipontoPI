@@ -99,8 +99,8 @@ def schedule_time(t):
 
 
 def run():
-    d1 = get_diff(16, 0)
-    d2 = get_diff(16, 30)
+    d1 = get_diff(17, 0)
+    d2 = get_diff(17, 30)
     if(d1 < d2):
         print("Starting time 1")
         schedule_time(d1)
