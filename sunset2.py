@@ -65,9 +65,9 @@ def playTrack():
     # subprocess.run(['mpg123', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     # subprocess.run(['aplay', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     ##wave
-    # wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
-    # play_obj = wave_obj.play()
-    # play_obj.wait_done()
+    wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
     infolog("ENDED")
 
 def run_at_sunset():
@@ -100,8 +100,8 @@ def schedule_time(t):
 
 def run():
     count = 0
-    d1 = get_diff(14, 55)
-    d2 = get_diff(15, 15)
+    d1 = get_diff(14, 57)
+    d2 = get_diff(15, 17)
     if(d1 < d2):
         print("Starting time 1")
         schedule_time(d1)
