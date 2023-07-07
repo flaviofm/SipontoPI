@@ -1,7 +1,7 @@
 import simpleaudio as sa
 import requests
-from astral.sun import sun
-from astral import LocationInfo
+# from astral.sun import sun
+# from astral import LocationInfo
 from datetime import datetime, timedelta
 import threading
 import subprocess
@@ -64,9 +64,9 @@ def playTrack():
     # Play the previously downloaded track using a media player
     # subprocess.run(['mpg123', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     # subprocess.run(['aplay', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+    # wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
+    # play_obj = wave_obj.play()
+    # play_obj.wait_done()
     infolog("ENDED")
 
 def run_at_sunset():
@@ -96,9 +96,17 @@ def schedule_time(h:int, m:int):
     t = threading.Timer(diff, run_at_sunset)
     t.start()
 
+
+COUNT = 0
+
 def run():
-    schedule_time(14, 0)
-    schedule_time(14, 30)
+    global COUNT
+    if(COUNT == 0):
+        schedule_time(14, 0)
+        COUNT = 1
+    else:
+        schedule_time(14, 30)
+        COUNT = 0
 
 # Initial setup
 initTrack()
