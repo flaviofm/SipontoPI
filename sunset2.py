@@ -55,34 +55,9 @@ ADJUSTMENT_S = 87
 
 def initTrack():
     infolog("Checking track")
-    
     isExist = os.path.exists(DIR_PATH)
     if not isExist:
         os.makedirs(DIR_PATH)
-    # download(URL, FILE_PATH)
-
-    # # Download the track from the URL and save it locally
-    # counter = 0
-    # while True:
-    #     try:
-    #         response = requests.get(URL, timeout=30)
-    #         infolog("RESPONSE LOADED")
-    #         break
-    #     except Exception as e:
-    #         infolog("INTERNET ERROR", e)
-    #         counter += 1
-    #         if(counter > 5):
-    #             infolog("NO WAY TO DOWNLOAD, PLAYING LAST DOWNLOADED TRACK")
-    #             return
-    #         sleep(1)
-
-    # # response = requests.get(URL)
-    # with open(FILE_PATH, 'wb') as file:
-    #     # infolog(response.content)
-    #     infolog("Writing...")
-    #     file.write(response.content)
-    # file.close()
-    # infolog("Track downloaded successfully.")
 
 def playTrack():
     infolog("PLAYING")
@@ -94,69 +69,39 @@ def playTrack():
     play_obj.wait_done()
     infolog("ENDED")
 
-
 def run_at_sunset():
     # Run the playTrack function when the sunset time is reached
     playTrack()
     # Restart the whole process
     initTrack()
-    calculate_and_schedule()
+    run()
+    # calculate_and_schedule()
 
-def calculate_and_schedule():
-    # Calculate the sunset time
-    time_difference = -1
-    checkDate = datetime.now()
-    while(time_difference < 0):
-        location = LocationInfo(latitude=LATITUDE, longitude=LONGITUDE)
-        s = sun(location.observer, date=checkDate)
-        sunset_time = s['sunset']
-        checkDate += timedelta(days=1)
-        # Calculate the time difference between the current time and the sunset time
-        current_time = datetime.now(pytz.timezone(location.timezone))
-        # current_time.replace(
-        #     hour=current_time.hour+ADJUSTMENT_H,
-        #     minute=current_time.minute+ADJUSTMENT_M,
-        #     second=current_time.second+ADJUSTMENT_S)
-        datetime_difference = (sunset_time - current_time)
+    ############NEW VERSION
+def get_diff(h:int, m:int):
+    now = datetime.now()
+    dt = now.replace(hour=h, minute=m, second=0, microsecond=0)
+    while(dt < now):
+        dt += timedelta(days=1)
+    diff = dt - now
+    return diff
 
-        # ADJUSTMENT
-        delta = timedelta(hours=ADJUSTMENT_H, minutes=ADJUSTMENT_M, seconds=ADJUSTMENT_S)
-        datetime_difference -= delta
-        infolog("TIME ADJUSTED" + str(datetime_difference))
 
-        time_difference = datetime_difference.total_seconds()
-
-        sec = time_difference % 60
-        min_time = (time_difference - sec) / 60
-        min = min_time % 60
-        h_time = (min_time - min) / 60
-        h = h_time
-
-        infolog(
-            "Will play at " + str(sunset_time.astimezone(pytz.timezone('Europe/Rome'))) +
-            "\Current time " + str(current_time.astimezone(pytz.timezone('Europe/Rome'))) +
-            "\nSunset in " + str(h) + "hours - " + str(min) + " min - " + str(sec) + " secs"
-        )
-
-    
+def schedule_time(h:int, m:int):
     # Schedule the event to run at the sunset time
-    t = threading.Timer(time_difference, run_at_sunset)
+    diff = get_diff(h, m).total_seconds()
+    infolog(
+        "\n• Will play in " + str(diff) + " secs"
+    )
+    t = threading.Timer(diff, run_at_sunset)
     t.start()
-    # while True:
-    #     current_time = datetime.now(pytz.timezone(location.timezone))
-    #     datetime_difference = (sunset_time - current_time)
 
-    #     delta = timedelta(hours=ADJUSTMENT_H, minutes=ADJUSTMENT_M, seconds=ADJUSTMENT_S)
-    #     datetime_difference -= delta
-    #     infolog("TIME ADJUSTED" + str(datetime_difference))
-
-    #     time_difference = datetime_difference.total_seconds()
-    #     if(time_difference < 0):
-    #         break
-    #     infolog(str(time_difference) + " till sunset")
-    #     sleep(3)
+def run():
+    schedule_time(14, 0)
+    schedule_time(14, 30)
 
 # Initial setup
 initTrack()
 infolog("SipontoSunset IS READY")
-calculate_and_schedule()
+# calculate_and_schedule()
+run()
