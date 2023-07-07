@@ -65,9 +65,9 @@ def playTrack():
     # subprocess.run(['mpg123', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     # subprocess.run(['aplay', FILE_PATH], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     ##wave
-    wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+    # wave_obj = sa.WaveObject.from_wave_file(FILE_PATH)
+    # play_obj = wave_obj.play()
+    # play_obj.wait_done()
     infolog("ENDED")
 
 def run_at_sunset():
@@ -79,7 +79,7 @@ def run_at_sunset():
     # calculate_and_schedule()
 
     ############NEW VERSION
-def get_diff(h:int, m:int):
+def get_diff(h, m):
     now = datetime.now()
     dt = now.replace(hour=h, minute=m, second=0, microsecond=0)
     while(dt < now):
@@ -88,26 +88,26 @@ def get_diff(h:int, m:int):
     return diff
 
 
-def schedule_time(h:int, m:int):
+def schedule_time(t):
     # Schedule the event to run at the sunset time
-    diff = get_diff(h, m).total_seconds()
+    diff = t.total_seconds()
     infolog(
-        "\n• Will play in " + str(diff) + " secs"
+        "\nWill play in " + str(diff) + " secs"
     )
     t = threading.Timer(diff, run_at_sunset)
     t.start()
 
 
-COUNT = 0
-
 def run():
-    global COUNT
-    if(COUNT == 0):
-        schedule_time(14, 40)
-        COUNT = 1
+    count = 0
+    d1 = get_diff(14, 55)
+    d2 = get_diff(15, 15)
+    if(d1 < d2):
+        print("Starting time 1")
+        schedule_time(d1)
     else:
-        schedule_time(14, 55)
-        COUNT = 0
+        print("Starting time 2")
+        schedule_time(d2)
 
 # Initial setup
 initTrack()
